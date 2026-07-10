@@ -54,7 +54,7 @@ def get_elo(
   if queue_type not in available_queue_types:
     raise ValueError(f'Fila não encontrada. Fila solicitada: {queue_type}. Filas disponíveis: {available_queue_types}')
 
-  queue_entry = select_entry(entries, 'RANKED_SOLO_5x5')
+  queue_entry = select_entry(entries, queue_type)
 
   if not 'rank' in queue_entry or not 'tier' in queue_entry:
     queue_entry['rank'] = 'Unranked'
