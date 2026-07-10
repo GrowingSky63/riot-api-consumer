@@ -40,7 +40,13 @@ def get_elo(username: str) -> dict:
   entries = get_entries(get_PUUID(username))
   
   soloq_entry = select_entry(entries, 'RANKED_SOLO_5x5')
+  if not 'rank' in soloq_entry or not 'tier' in soloq_entry:
+    soloq_entry['rank'] = 'unrancked'
+    soloq_entry['tier'] = ''
   flex_entry = select_entry(entries, 'RANKED_FLEX_SR')
+  if not 'rank' in flex_entry or not 'tier' in flex_entry:
+    flex_entry['rank'] = 'unrancked'
+    flex_entry['tier'] = ''
 
   return {
     'Solo/Duo': f"{RANK_TRANSLATION[soloq_entry['tier']]} {soloq_entry['rank']}",
