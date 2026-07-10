@@ -1,5 +1,11 @@
 from fastapi import APIRouter
-from riot_api_consumer import get_PUUID, get_entries, select_entry, RANK_TRANSLATION
+from riot_api_consumer import (
+  get_PUUID,
+  get_entries,
+  select_entry,
+  list_queue_types,
+  RANK_TRANSLATION
+)
 
 
 lol_router = APIRouter(
@@ -36,22 +42,22 @@ lol_router = APIRouter(
 ]
 """
 @lol_router.get('/elo')
-def get_elo(username: str) -> dict:
-  entries = get_entries(get_PUUID(username))
+def get_elo(
+  username: str,
+  tag_line: str | None = None,
+  queue_type: str = 'RANKED_SOLO_5x5'
+) -> str:
+  entries = get_entries(get_PUUID(username, tag_line))
 
-  soloq_entry = select_entry(entries, 'RANKED_SOLO_5x5')
+  available_queue_types = list_queue_types(entries)
 
-  if not 'rank' in soloq_entry or not 'tier' in soloq_entry:
-    soloq_entry['rank'] = 'Unranked'
-    soloq_entry['tier'] = ''
-    
-  flex_entry = select_entry(entries, 'RANKED_FLEX_SR')
-  
-  if not 'rank' in flex_entry or not 'tier' in flex_entry:
-    flex_entry['rank'] = 'Unranked'
-    flex_entry['tier'] = ''
+  if queue_type not in available_queue_types:
+    raise ValueError(f'Fila não encontrada. Fila solicitada: {queue_type}. Filas disponíveis: {available_queue_types}')
 
-  return {
-    'Solo/Duo': f"{RANK_TRANSLATION[soloq_entry['tier']]} {soloq_entry['rank']}",
-    'Flex': f"{RANK_TRANSLATION[flex_entry['tier']]} {flex_entry['rank']}"
-    }
+  queue_entry = select_entry(entries, 'RANKED_SOLO_5x5')
+
+  if not 'rank' in queue_entry or not 'tier' in queue_entry:
+    queue_entry['rank'] = 'Unranked'
+    queue_entry['tier'] = ''
+
+  return f"{RANK_TRANSLATION[queue_entry['tier']]} {queue_entry['rank']}"

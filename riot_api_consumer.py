@@ -22,8 +22,15 @@ RANK_TRANSLATION = {
   'MASTER': 'Mestre'
 }
 
-def get_PUUID(nickname: str) -> str:
-  game_name, tag_line = nickname.split('#')
+def get_PUUID(username: str, tag_line: str | None = None) -> str:
+  if tag_line is not None:
+    game_name = username
+
+  elif tag_line is None:
+    if '#' not in username:
+      raise ValueError('tag_line precisa estar no username, ou ser passada separadamente como tag_line')
+    game_name, tag_line = username.split('#')
+  
   url = f'{ACCOUTS_V1_URL}accounts/by-riot-id/{game_name}/{tag_line}'
 
   response = requests.get(url, headers=HEADERS)
@@ -49,6 +56,9 @@ def get_entries(PUUID: str) -> list[dict]:
     raise ValueError(f'PUUID não encontrado. [{response.status_code}] {response.content}')
   
   return response_dict
+
+def list_queue_types(entries: list[dict]) -> list:
+  return [entry['queueType'] for entry in entries if 'queueType' in entry]
 
 def select_entry(entries: list[dict], queue_type: str) -> dict:
   for entry in entries:
