@@ -52,9 +52,8 @@ def get_elo(
   except ValueError as e:
     raise HTTPException(
       status_code=500,
-      detail=f'{e.args}'
+      detail=f'{e}'
     )
-
 
   available_queue_types = list_queue_types(entries)
 
