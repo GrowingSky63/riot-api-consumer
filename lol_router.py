@@ -11,6 +11,7 @@ from riot_api_consumer import (
 lol_router = APIRouter(
   prefix='/lol'
 )
+
 """
 [
     {
@@ -41,6 +42,7 @@ lol_router = APIRouter(
     }
 ]
 """
+
 @lol_router.get('/elo')
 def get_elo(
   username: str,
