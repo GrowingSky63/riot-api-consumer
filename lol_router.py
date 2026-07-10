@@ -47,7 +47,14 @@ def get_elo(
   tag_line: str | None = None,
   queue_type: str = 'RANKED_SOLO_5x5'
 ) -> str:
-  entries = get_entries(get_PUUID(username, tag_line))
+  try:
+    entries = get_entries(get_PUUID(username, tag_line))
+  except ValueError as e:
+    raise HTTPException(
+      status_code=500,
+      detail=e
+    )
+
 
   available_queue_types = list_queue_types(entries)
 
