@@ -5,8 +5,8 @@ After=network.target
 [Service]
 Type=simple
 User=www-data
-WorkingDirectory=/riot-api-consumer
-ExecStart=/riot-api-consumer/.venv/bin/python main.py
+WorkingDirectory=/root/riot-api-consumer
+ExecStart=/root/riot-api-consumer/.venv/bin/python main.py
 Restart=on-failure
 RestartSec=5
 
