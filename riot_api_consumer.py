@@ -35,14 +35,14 @@ def get_PUUID(username: str, tag_line: str | None = None) -> str:
 
   response = requests.get(url, headers=HEADERS)
 
-  try:
-    response_dict = json.loads(response.content)
-  except:
-    raise ValueError(f'PUUID não encontrado. [{response.status_code}] {response.content}')
+  if response.status_code == 404:
+    raise ValueError(f'PUUID não encontrado para o usuário: {game_name}#{tag_line}.')
 
-  if not 'puuid' in response_dict:
-    raise ValueError(f'PUUID não encontrado. [{response.status_code}] {response.content}')
-  
+  if response.status_code < 200 or response.status_code >= 299:
+    raise ValueError(f'Erro: {response.content}')
+
+  response_dict = json.loads(response.content)
+
   return response_dict['puuid']
 
 def get_entries(PUUID: str) -> list[dict]:
