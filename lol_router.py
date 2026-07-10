@@ -52,7 +52,7 @@ def get_elo(
   except ValueError as e:
     raise HTTPException(
       status_code=500,
-      detail=e
+      detail=f'{e}'
     )
 
 
