@@ -40,6 +40,5 @@ def get_elo(username: str) -> str:
   entries = get_entries(get_PUUID(username))
   
   soloq_entry = select_entry(entries, 'RANKED_SOLO_5x5')
-  flex_entry = select_entry(entries, 'RANKED_FLEX_SR')
 
   return f"{RANK_TRANSLATION[soloq_entry['tier']]} {soloq_entry['rank']}"
