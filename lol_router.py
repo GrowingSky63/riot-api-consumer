@@ -36,9 +36,13 @@ lol_router = APIRouter(
 ]
 """
 @lol_router.get('/elo')
-def get_elo(username: str) -> str:
+def get_elo(username: str) -> dict:
   entries = get_entries(get_PUUID(username))
   
   soloq_entry = select_entry(entries, 'RANKED_SOLO_5x5')
+  flex_entry = select_entry(entries, 'RANKED_FLEX_SR')
 
-  return f"{RANK_TRANSLATION[soloq_entry['tier']]} {soloq_entry['rank']}"
+  return {
+    'Solo/Duo': f"{RANK_TRANSLATION[soloq_entry['tier']]} {soloq_entry['rank']}",
+    'Flex': f"{RANK_TRANSLATION[flex_entry['tier']]} {flex_entry['rank']}"
+    }
