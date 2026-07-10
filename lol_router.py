@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from riot_api_consumer import (
   get_PUUID,
   get_entries,
@@ -52,7 +52,10 @@ def get_elo(
   available_queue_types = list_queue_types(entries)
 
   if queue_type not in available_queue_types:
-    raise ValueError(f'Fila não encontrada. Fila solicitada: {queue_type}. Filas disponíveis: {available_queue_types}')
+    raise HTTPException(
+      status_code=400,
+      detail=f'Fila não encontrada. Fila solicitada: {queue_type}. Filas disponíveis: {available_queue_types}'
+    )
 
   queue_entry = select_entry(entries, queue_type)
 
