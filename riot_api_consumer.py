@@ -12,14 +12,17 @@ ACCOUTS_V1_URL = 'https://americas.api.riotgames.com/riot/account/v1/'
 LEAGUE_V4_URL = 'https://br1.api.riotgames.com/lol/league/v4/'
 
 RANK_TRANSLATION = {
-  'IRON': 'Ferro',
-  'BRONZE': 'Bronze',
-  'SILVER': 'Prata',
-  'GOLD': 'Ouro',
-  'PLATINUM': 'Platina',
-  'EMERALD': 'Esmeralda',
-  'DIAMOND': 'Diamante',
-  'MASTER': 'Mestre'
+  'pt-br': {
+    'UNRUNCKED': 'Sem Elo',
+    'IRON': 'Ferro',
+    'BRONZE': 'Bronze',
+    'SILVER': 'Prata',
+    'GOLD': 'Ouro',
+    'PLATINUM': 'Platina',
+    'EMERALD': 'Esmeralda',
+    'DIAMOND': 'Diamante',
+    'MASTER': 'Mestre'
+  }
 }
 
 def get_PUUID(username: str, tag_line: str | None = None) -> str:

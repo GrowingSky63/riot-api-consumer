@@ -7,9 +7,11 @@ from riot_api_consumer import (
   RANK_TRANSLATION
 )
 
+# Retrocompatibilidade com V2 que permite várias linguas
+RANK_TRANSLATION = RANK_TRANSLATION['pt-br']
 
 lol_router = APIRouter(
-  prefix='/lol'
+  prefix='/league/v1'
 )
 
 """
@@ -68,7 +70,7 @@ def get_elo(
   queue_entry = select_entry(entries, queue_type)
 
   if not 'rank' in queue_entry or not 'tier' in queue_entry:
-    queue_entry['rank'] = 'Unranked'
-    queue_entry['tier'] = ''
+    queue_entry['tier'] = 'Unranked'
+    queue_entry['rank'] = ''
 
   return f"{RANK_TRANSLATION[queue_entry['tier']]} {queue_entry['rank']}"
