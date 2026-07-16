@@ -1,7 +1,11 @@
-import types
-import typing
-if not hasattr(typing, 'GenericAlias'):
-    typing.GenericAlias = types.GenericAlias  # type: ignore[attr-defined]
+
+"""
+Gambiarra pra poder usar debbug por causa de uma depreciação no pydantic
+"""
+# import types
+# import typing
+# if not hasattr(typing, 'GenericAlias'):
+#   typing.GenericAlias = types.GenericAlias  # type: ignore[attr-defined]
 
 import uvicorn
 from fastapi import FastAPI

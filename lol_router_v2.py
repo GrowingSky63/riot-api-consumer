@@ -1,5 +1,5 @@
 from typing import Literal
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Response
 from riot_api_consumer import (
   get_PUUID,
   get_entries,
@@ -87,7 +87,7 @@ def get_tier_rank_string(
   username: str,
   tag_line: str | None = None,
   queue_type: str = 'RANKED_SOLO_5x5'
-) -> str:
+) -> Response:
   """
   `rank_format` recebe todos os textos e variaveis que formarão o texto resposta.
   Exemplo:
@@ -103,4 +103,4 @@ def get_tier_rank_string(
     else:
       response_words.append(str(info))
   
-  return ' '.join(response_words)
+  return Response(content=' '.join(response_words), media_type='text/plain')
